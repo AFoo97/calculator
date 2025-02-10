@@ -80,4 +80,33 @@ function operate(operator, num1, num2) {
     }
 }
 
+document.addEventListener("keydown", (event) => {
+    const key = event.key;
+    if (!isNaN(key)) {
+        currentInput += key;
+        updateDisplay(currentInput);
+    } else if (["+", "-", "*", "/"].includes(key)) {
+        if (firstNumber !== "" && operator !== "" && currentInput !== "") {
+            secondNumber = currentInput;
+            let result = operate(operator, parseFloat(firstNumber), parseFloat(secondNumber));
+            updateDisplay(result);
+            firstNumber = result;
+            currentInput = "";
+            resultDisplayed = true;
+        } else if (currentInput !== "") {
+            firstNumber = currentInput;
+        }
+        operator = key;
+        currentInput = "";
+    } else if (key === "Enter" || key === "=") {
+        document.getElementById("equals").click();
+    } else if (key === "Backspace") {
+        document.getElementById("backspace").click();
+    } else if (key === "Escape") {
+        document.getElementById("clear").click();
+    } else if (key === "." && !currentInput.includes(".")) {
+        currentInput += ".";
+        updateDisplay(currentInput);
+    }
+});
 
